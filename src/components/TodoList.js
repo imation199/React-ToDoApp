@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
-import TodoForm from './TodoForm';
-import Todo from './Todo';
+import React, { useState } from "react";
+import TodoForm from "./TodoForm";
+import Todo from "./Todo";
+import { DiGithubBadge } from "react-icons/di";
 
 function TodoList() {
   const [todos, setTodos] = useState([]);
 
   React.useEffect(() => {
     const todosLocalStorage = localStorage.getItem("todos");
-    if(todosLocalStorage) {
+    if (todosLocalStorage) {
       setTodos(JSON.parse(todosLocalStorage));
     }
-  }, [])
+  }, []);
 
   React.useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos])
+  }, [todos]);
 
-
-  const addTodo = todo => {
+  const addTodo = (todo) => {
     if (!todo.text || /^\s*$/.test(todo.text)) {
       return;
     }
@@ -33,17 +33,19 @@ function TodoList() {
       return;
     }
 
-    setTodos(prev => prev.map(item => (item.id === todoId ? newValue : item)));
+    setTodos((prev) =>
+      prev.map((item) => (item.id === todoId ? newValue : item))
+    );
   };
 
-  const removeTodo = id => {
-    const removedArr = [...todos].filter(todo => todo.id !== id);
+  const removeTodo = (id) => {
+    const removedArr = [...todos].filter((todo) => todo.id !== id);
 
     setTodos(removedArr);
   };
 
-  const completeTodo = id => {
-    let updatedTodos = todos.map(todo => {
+  const completeTodo = (id) => {
+    let updatedTodos = todos.map((todo) => {
       if (todo.id === id) {
         todo.isComplete = !todo.isComplete;
       }
@@ -55,6 +57,9 @@ function TodoList() {
   return (
     <>
       <h1>What's the Plan for Today?</h1>
+      <a href="https://github.com/imation199/React-ToDoApp" target="_blank" rel="noreferrer">
+        <DiGithubBadge size={45} color="white" />
+      </a>
       <TodoForm onSubmit={addTodo} />
       <Todo
         todos={todos}
