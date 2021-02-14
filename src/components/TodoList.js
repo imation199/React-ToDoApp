@@ -5,6 +5,18 @@ import Todo from './Todo';
 function TodoList() {
   const [todos, setTodos] = useState([]);
 
+  React.useEffect(() => {
+    const todosLocalStorage = localStorage.getItem("todos");
+    if(todosLocalStorage) {
+      setTodos(JSON.parse(todosLocalStorage));
+    }
+  }, [])
+
+  React.useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos])
+
+
   const addTodo = todo => {
     if (!todo.text || /^\s*$/.test(todo.text)) {
       return;
